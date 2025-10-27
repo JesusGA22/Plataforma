@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 
 public class Fliper2D : MonoBehaviour
 {
     [SerializeField]  bool isFacingRightByDefault = true;
+
+    private bool facingRight;
     Rigidbody2D rb;
     SpriteRenderer sprite;
 
@@ -11,7 +14,9 @@ public class Fliper2D : MonoBehaviour
     void Start()
     {
         rb= GetComponent<Rigidbody2D>();
-        sprite= rb.GetComponent<SpriteRenderer>();
+        sprite= rb.GetComponentInChildren<SpriteRenderer>();
+        facingRight = isFacingRightByDefault;
+
     }
 
     // Update is called once per frame
@@ -24,6 +29,32 @@ public class Fliper2D : MonoBehaviour
         //gestiona el Flip
 
         //si nos movemos a la derecha
-        //if (rb.linearVelocityX)
+        if (rb.linearVelocityX > 0.1f)
+        {
+            sprite.flipX = !isFacingRightByDefault;
+            updateFacing();
+
+            //EQUIVALENTE A:
+            //if(isFacingRightByDefault) sprite.flipX = false;
+            //else sprite.flipX = true;
+        }
+        if (rb.linearVelocityX < -0.1f)
+        {
+            sprite.flipX = isFacingRightByDefault;
+            updateFacing();
+
+            //EQUIVALENTE A:
+            //if(isFacingRightByDefault) sprite.flipX = true;
+            //else sprite.flipX = false;
+        }
     }
+    public void updateFacing()
+    {
+        facingRight = Math.Abs((isFacingRightByDefault ? 1 : 0) - (sprite.flipX ? 1 : 0)) == 1;
+    }
+    public bool isFacingRight()
+    {
+        return facingRight;
+    }
+
 }
