@@ -2,34 +2,31 @@ using UnityEngine;
 
 public class CONTROLANIMACIONES2D : MonoBehaviour
 {
-    float inputX;
-    float inputY;
+
     Rigidbody2D rb;
     Animator animator;
-
     IGrounded2D grounded2D;
+    MOVE2D move2D;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         grounded2D = GetComponentInChildren<IGrounded2D>();
+        move2D = GetComponentInChildren<MOVE2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        inputX = Input.GetAxis("Horizontal");
-        inputY = Input.GetAxis("Vertical");
-        if (!grounded2D.IsGrounded || Mathf.Abs(rb.linearVelocityY) > 0.5f)
-        {
-            if (rb.linearVelocityY > 0.1) animator.Play("JUMP");
-            else animator.Play("FALL");
-        }
-        else if (Mathf.Abs(rb.linearVelocityX) < 0.1) animator.Play("IDLE");
-        else animator.Play("RUN");
-        
-        
-        
+        if (Mathf.Abs(rb.linearVelocityX) < 0.1)//parado
+            animator.SetFloat("velocityX", 0);
+        else if (!move2D.IsRunning)
+            animator.SetFloat("velocityX", 1);//Andando. Animacion va a la velocidad normal
+        else
+            animator.SetFloat("velocityX", 2);   //Corriendo. Animacion va al doble de la animacion normal
+        animator.SetFloat("velocityY", rb.linearVelocityY);
+        animator.SetBool("IsGrounded", grounded2D.IsGroundedRaw);
     }
 }

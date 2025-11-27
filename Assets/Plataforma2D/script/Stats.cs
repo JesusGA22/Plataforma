@@ -1,0 +1,17 @@
+using UnityEngine;
+
+[System.Serializable]
+public class Stats
+{
+    [Header("Character data")]
+    public string characterName;
+
+    [Header("Move parameters")]
+    public float moveSpeed = 5f;
+    [Range(1f, 5f)] public float runModifique = 1.5f;
+
+    [Header("Jump parameters")]
+    public float jumpForce = 10f;
+    [Range(0f, 1f)] public float airMomentum = 0.8f;
+    public float saltosExtra = 1f;
+}
