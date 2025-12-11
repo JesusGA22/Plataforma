@@ -34,20 +34,28 @@ public class JUMP2D : MonoBehaviour
     // Update is called once per frame
     public void Jump(InputAction.CallbackContext context = default)
     {
-        if (_grounded.IsGrounded)
+        if (_grounded.IsGroundedRaw || saltoExtra > 0)
         {
             jumpkey = true;
-            saltoExtra= statsComponent.stats.saltosExtra;}
+            saltoExtra--;
+            if (_grounded.IsGroundedRaw)
+            {
+                saltoExtra = statsComponent.stats.saltosExtra;
+            }
+        }
     }
     private void FixedUpdate()
     {
-        if (jumpkey || saltoExtra>0)
+        if (jumpkey)
         {
             jumpkey = false;
             //rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
             rb.linearVelocityY = statsComponent.stats.jumpForce;
             OnJump.Invoke();
-            saltoExtra--;
+        }
+        if (rb.linearVelocityY < 0.1 && rb.linearVelocityY < statsComponent.stats.velocidadMax)
+        {
+            rb.linearVelocityY *= statsComponent.stats.fuerzaCaida;
         }
     }
    
