@@ -8,10 +8,12 @@ public class PlayerControler : MonoBehaviour
     [SerializeField] InputActionReference moveActionRef;
     [SerializeField] InputActionReference runActionRef;
     [SerializeField] InputActionReference jumpActionRef;
+    [SerializeField] InputActionReference escalarRef;
 
     //referencias componentes
     MOVE2D move2D;
     JUMP2D jump2D;
+    SubirEscaleras2D subir2D;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -25,18 +27,21 @@ public class PlayerControler : MonoBehaviour
         //inicilizamos refernecias
         move2D =GetComponent<MOVE2D>();
         jump2D = GetComponent<JUMP2D>();
+        subir2D = GetComponent<SubirEscaleras2D>();
     }
 
     private void OnEnable()
     {
         jumpActionRef.action.performed += jump2D.Jump;
         runActionRef.action.performed += move2D.Run;
+        escalarRef.action.performed += subir2D.Escalar;
     }
 
     private void OnDisable()
     {
         jumpActionRef.action.performed -= jump2D.Jump;
         runActionRef.action.performed -= move2D.Run;
+        escalarRef.action.performed -= subir2D.Escalar;
     }
 
     // Update is called once per frame

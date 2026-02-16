@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 
 public class SubirEscaleras2D : MonoBehaviour
 {
     //variables interna
-    private bool escaladando;
+    private bool escalando;
     private float gravedadInicial;
 
     Vector2 input;
@@ -33,16 +34,26 @@ public class SubirEscaleras2D : MonoBehaviour
     {
         
     }
-    public void Escaler()
+    public void Escalar()
     {
         var stats = statsComponent.stats;
         float currentVelY = rb.linearVelocityY;
 
-        if ((currentVelY != 0 || escaladando) && (colision.IsTouchingLayers(LayerMask.GetMask("escaleras"))))
+        if ((currentVelY != 0 || escalando) && (colision.IsTouchingLayers(LayerMask.GetMask("escaleras"))))
         {
-            rb.linearVelocityY = stats.velocidadSubida;
+            rb.linearVelocityY = statsComponent.stats.velocidadSubida;
             rb.gravityScale = 0;
-            escaladando = true;
+            escalando = true;
         }
+        else
+        {
+            rb.gravityScale = gravedadInicial;
+            escalando= false;
+        }
+        
+    }
+    private void FixedUpdate()
+    {
+        Escalar();
     }
 }
