@@ -20,12 +20,27 @@ public class CONTROLANIMACIONES2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (animator == null) return;
+
         if (Mathf.Abs(rb.linearVelocityX) < 0.1)//parado
             animator.SetFloat("velocityX", 0);
-        else if (!move2D.IsRunning)
-            animator.SetFloat("velocityX", 1);//Andando. Animacion va a la velocidad normal
         else
-            animator.SetFloat("velocityX", 2);   //Corriendo. Animacion va al doble de la animacion normal
+        {
+            if (move2D)
+            {
+                if (!move2D.IsRunning)
+                    animator.SetFloat("velocityX", 1);//Andando. Animacion va a la velocidad normal
+                else
+                {
+                    animator.SetFloat("velocityX", 2);   //Corriendo. Animacion va al doble de la animacion normal
+                }
+            }
+            else 
+            {
+                animator.SetFloat("velocityX", 1);
+            }
+        }
+
         animator.SetFloat("velocityY", rb.linearVelocityY);
         animator.SetBool("IsGrounded", grounded2D.IsGroundedRaw);
     }

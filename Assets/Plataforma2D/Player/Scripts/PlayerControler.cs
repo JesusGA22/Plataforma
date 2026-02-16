@@ -34,14 +34,14 @@ public class PlayerControler : MonoBehaviour
     {
         jumpActionRef.action.performed += jump2D.Jump;
         runActionRef.action.performed += move2D.Run;
-        escalarRef.action.performed += subir2D.Escalar;
+        //escalarRef.action.performed += subir2D.Escalar;
     }
 
     private void OnDisable()
     {
         jumpActionRef.action.performed -= jump2D.Jump;
         runActionRef.action.performed -= move2D.Run;
-        escalarRef.action.performed -= subir2D.Escalar;
+        //escalarRef.action.performed -= subir2D.Escalar;
     }
 
     // Update is called once per frame
