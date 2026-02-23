@@ -81,12 +81,19 @@ public class EnemyControler : MonoBehaviour
     {
         if(Vector2.Distance(transform.position, patrolsPositions[target]) > 1.5f)//si no hemos llegado, avanzamos hasta el objetivo
         {
-            int targetDirection = patrolsPositions[target].x > transform.position.x ? 1 : -1;
-            rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, stats.stats.moveSpeed * targetDirection, stats.stats.moveSpeed);
+            int targetDirectionX = patrolsPositions[target].x > transform.position.x ? 1 : -1;
+            if (Mathf.Abs(patrolsPositions[target].x - transform.position.x) < 0.1f) targetDirectionX = 0;
+            int targetDirectionY = patrolsPositions[target].y > transform.position.y ? 1 : -1;
+            if (Mathf.Abs(patrolsPositions[target].y - transform.position.y) < 0.1f) targetDirectionY = 0;
+
+
+            rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, stats.stats.moveSpeed * targetDirectionX, stats.stats.moveSpeed);
+            rb.linearVelocityY = Mathf.Lerp(rb.linearVelocityY, stats.stats.moveSpeed * targetDirectionY, stats.stats.moveSpeed);
         }
         else //si hemos llegado
         {
             rb.linearVelocityX = 0;
+            rb.linearVelocityY = 0;
             target =(target +1)% patrolsPositions.Count; //pasamos añ siguiente objetivo
             enemyState = EnemyState.Idle;
         }

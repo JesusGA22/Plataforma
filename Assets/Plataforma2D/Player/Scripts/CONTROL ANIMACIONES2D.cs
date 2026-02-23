@@ -23,19 +23,26 @@ public class CONTROLANIMACIONES2D : MonoBehaviour
         if (animator == null) return;
 
         if (Mathf.Abs(rb.linearVelocityX) < 0.1)//parado
+        {
             animator.SetFloat("velocityX", 0);
+            animator.SetFloat("velocityY", 0);
+        }
         else
         {
             if (move2D)
             {
                 if (!move2D.IsRunning)
+                {
                     animator.SetFloat("velocityX", 1);//Andando. Animacion va a la velocidad normal
+                    animator.SetFloat("velocityY", 1);//Andando. Animacion va a la velocidad normal
+                }
                 else
                 {
                     animator.SetFloat("velocityX", 2);   //Corriendo. Animacion va al doble de la animacion normal
+                    animator.SetFloat("velocityY", 2);   //Corriendo. Animacion va al doble de la animacion normal
                 }
             }
-            else 
+            else
             {
                 animator.SetFloat("velocityX", 1);
             }
